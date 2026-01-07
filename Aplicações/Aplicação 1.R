@@ -50,7 +50,7 @@ fitDist(Number,
         type="counts" # Tipo de dado
         )$fits 
 
-newpar<-par(mfrow=c(1,1), #mfrow=c(2,2) para deixar os 4 graficos na mesma imagem
+newpar<-par(mfrow=c(1,1), # mfrow=c(2,2) para deixar os 4 graficos em conjunto
             mar=par("mar")+c(0,1,0,0),col.axis="black",
             col="black",col.lab="black", col.main="white", pch=16,
             cex=1, cex.lab=1.25, cex.axis=1)
@@ -61,21 +61,27 @@ fit1=gamlss(Number~Age+Treatment, # Definicao do submodelo de mu
             family=PO(mu.link = "log") # Distribuicao e funcao de ligacao
             );summary(fit1)
 
+plot(fit1, par=newpar) # graficos da analise diagnostica individuais
 
-
-plot(fit1, par=newpar)
 plot(fit1)
 
-rqres.plot(fit1)
-wp(fit1)
+wp(fit1) # worm plot
 
-fit2=gamlss(Number~Age+Treatment, family=GEOM(mu.link = "log"));summary(fit2)
+rqres.plot(fit1) # multiplos worm plots
+
+# Modelo 2
+
+fit2=gamlss(Number~Age+Treatment,
+            family=GEOM(mu.link = "log")
+            );summary(fit2)
 
 plot(fit2, par=newpar)
 plot(fit2)
 
 rqres.plot(fit2)
 wp(fit2)
+
+# Modelo 3
 
 fit3=gamlss(Number~Age+Treatment, sigma.formula = ~ Treatment,
             family=NBI(mu.link = "log",sigma.link = "log"));summary(fit3)
