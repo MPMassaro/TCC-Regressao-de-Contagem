@@ -63,13 +63,13 @@ fit1=gamlss(Sat~Wt+Col,family=PO(mu.link = "log"));summary(fit1)
 plot(fit1,par=newpar)
 plot(fit1)
 
+rqres.plot(fit1)
 wp(fit1, ylim.all=F)
 
 # Modelo 2
 
 fit2=gamlss(Sat~Wt+Col,sigma.formula = ~ Wt,
-            family=ZIP(mu.link = "log", sigma.link = "logit"),
-            data=hcrabs[-c(15,56,149),]);summary(fit2)
+            family=ZIP(mu.link = "log", sigma.link = "logit"));summary(fit2)
 
 plot(fit2,par=newpar)
 plot(fit2)
@@ -100,12 +100,11 @@ plot(fit4)
 rqres.plot(fit4)
 wp(fit4)
 
-#hcrabs$Col <- relevel(hcrabs$Col, ref = "Escura")
 
 # Modelo 5
 
 fit5=gamlss(Sat~Wt + Col,sigma.formula = ~ Col,
-            nu.formula = ~ 1,tau.formula = ~ Col,#data=hcrabs[-c(15,56,149),],
+            nu.formula = ~ 1,tau.formula = ~ Col,
             family=ZISICHEL(tau.link = "logit"),data=hcrabs);summary(fit5)
 
 plot(fit5,par=newpar)
