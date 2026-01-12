@@ -83,9 +83,9 @@ wp(fit2)
 
 # Modelo 3
 
-fit3=gamlss(Number~Age+Treatment,
-            sigma.formula = ~ Treatment, #
-            family=NBI(
+fit3=gamlss(Number~Age+Treatment,        # submodelo de mu
+            sigma.formula = ~ Treatment, # submodelo de sigma
+            family=NBI(           # escolha da distribuicao
               mu.link = "log",    # funcao de ligacao do submodelo de mu
               sigma.link = "log"  # funcao de ligacao do submodelo de sigma
               )
@@ -97,8 +97,8 @@ plot(fit3)
 rqres.plot(fit3)
 wp(fit3)
 
-# Calculando os p-valores do teste de Wald
+# Calculando os p-valores da normal do teste de Wald
 
-coef_tab = summary(fit3)
-z_value = coef_tab[, "Estimate"] / coef_tab[, "Std. Error"]
-p_value_norm <- 2 * pnorm(abs(z_value), lower.tail = FALSE);p_value_norm
+summary = summary(fit3)
+z = summary[,"Estimate"]/summary[,"Std. Error"]
+pvalor = 2 * pnorm(abs(z), lower.tail=F);pvalor
